@@ -9,5 +9,6 @@ public class Message {
 	private String roomId;
 	private String userId;
 	private String message;
+	private String time;
 
 }
