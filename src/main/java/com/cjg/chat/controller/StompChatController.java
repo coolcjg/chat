@@ -4,11 +4,12 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import com.cjg.chat.dto.Message;
+import com.cjg.chat.dto.MessageDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,17 +17,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StompChatController {
 	
-	private final SimpMessagingTemplate template;
+	private final RedisTemplate<String, Object> redisTemplate;
+	private final ChannelTopic channelTopic;
 	
 	@MessageMapping(value = "/chat/message")
-	public void message(Message message, Principal principal) {
-		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-		message.setTime(LocalDateTime.now().format(dtf));
-		
+	public void message(MessageDto message, Principal principal) {
+		message.setTime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));		
 		System.out.println("message : " + message);
 		
-		template.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+		redisTemplate.convertAndSend(channelTopic.getTopic(), message);
 	}
 
 }

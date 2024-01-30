@@ -3,7 +3,7 @@ package com.cjg.chat.dto;
 import lombok.Data;
 
 @Data
-public class Message {
+public class MessageDto {
 	
 	private String type;
 	private String roomId;
