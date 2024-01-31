@@ -8,7 +8,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-import jakarta.servlet.Registration;
+import com.cjg.chat.config.redis.ChatHandler;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
