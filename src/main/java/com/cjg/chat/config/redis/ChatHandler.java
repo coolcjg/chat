@@ -29,7 +29,6 @@ public class ChatHandler implements ChannelInterceptor{
 			stompChatService.setSessionId_User(message);
 		}else if(accessor.getCommand() == StompCommand.DISCONNECT) {
 			stompChatService.sendExitMessage(message);
-			logger.info("DISCONNECT");
 		}
 		
 		return message;
