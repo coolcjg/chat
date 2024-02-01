@@ -2,7 +2,6 @@ package com.cjg.chat.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.messaging.Message;
@@ -11,23 +10,22 @@ import org.springframework.stereotype.Service;
 
 import com.cjg.chat.dto.MessageDto;
 import com.cjg.chat.dto.User;
+import com.cjg.chat.repository.ChatRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class StompChatService {
 	
+	Logger logger = LoggerFactory.getLogger(StompChatService.class);
+	
 	private final ChannelTopic channelTopic;
 	private final RedisTemplate<String, Object> redisTemplate;
 	private final ObjectMapper objectMapper;
-	
-	Logger logger = LoggerFactory.getLogger(StompChatService.class);
-	
-	@Resource(name="redisTemplate")
-	private HashOperations<String, String, Object> hashOps;
+	private final ChatRepository chatRepository;
+
 	
 	public void sendMessage(MessageDto message) {
 		redisTemplate.convertAndSend(channelTopic.getTopic(), message);
@@ -42,15 +40,16 @@ public class StompChatService {
 		User user = new User();
 		user.setRoomId(roomId);
 		user.setUserId(userId);
-
-		hashOps.put("SessionId_User", sessionId, user);
+		
+		chatRepository.setSessionId_User(sessionId, user);
+		chatRepository.setRoomId_UserId(user);
 	}
 	
 	public void sendExitMessage(Message<?> message) {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		String sessionId = accessor.getSessionId();
 						
-		User user = (User)hashOps.get("SessionId_User", sessionId);
+		User user = chatRepository.getSessionId_User(sessionId);
 		logger.info("sendExitMessage user : "+ user);
 		
 		MessageDto messageDto = new MessageDto();
@@ -59,6 +58,8 @@ public class StompChatService {
 		messageDto.setUserId(user.getUserId());
 		
 		redisTemplate.convertAndSend(channelTopic.getTopic(), messageDto);
+		chatRepository.removeRoomId_UserId(user);
+		
 	}
 	
 	
