@@ -46,9 +46,7 @@ public class StompChatService {
 	public void sendExitMessage(Message<?> message) {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
 		String sessionId = accessor.getSessionId();
-		
-		redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(User.class));
-		
+				
 		//유저 정보 가져오기
 		System.out.println("exitUser");
 		System.out.println(hashOps.get("SessionId_User", sessionId));
