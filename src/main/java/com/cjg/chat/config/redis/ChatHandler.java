@@ -21,7 +21,7 @@ public class ChatHandler implements ChannelInterceptor{
 	StompChatService stompChatService;
 	
 	@Override
-	public Message<?> preSend(Message<?> message, MessageChannel channel){
+	public Message<?> preSend(Message<?> message, MessageChannel channel) {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);		
 		logger.info(accessor.toString());
 		
