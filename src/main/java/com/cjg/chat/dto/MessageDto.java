@@ -10,5 +10,6 @@ public class MessageDto {
 	private String userId;
 	private String message;
 	private String time;
+	private Long userCount;
 
 }

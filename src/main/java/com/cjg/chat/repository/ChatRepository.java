@@ -40,6 +40,10 @@ public class ChatRepository {
 	
 	public Long removeRoomId_UserId(User user) {
 		return setOps.remove(ROOMID_USERID + user.getRoomId(), user.getUserId());
-	}	
+	}
+	
+	public Long getUserCountInRoom(String roomId) {
+		return setOps.size(ROOMID_USERID + roomId);
+	}
 	
 }

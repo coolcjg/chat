@@ -62,6 +62,9 @@ public class StompChatService {
 		
 	}
 	
+	public Long getUserCountInRoom(String roomId) {
+		return chatRepository.getUserCountInRoom(roomId);
+	}
 	
 
 }

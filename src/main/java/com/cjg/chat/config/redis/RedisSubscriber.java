@@ -9,6 +9,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.cjg.chat.dto.MessageDto;
+import com.cjg.chat.service.StompChatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class RedisSubscriber implements MessageListener {
 	private final ObjectMapper objectMapper;
 	private final RedisTemplate<String, Object> redisTemplate;
 	private final SimpMessagingTemplate messagingTemplate;
+	private final StompChatService stompChatService;
 	
 	Logger logger = LoggerFactory.getLogger(RedisSubscriber.class);
 	
@@ -28,6 +30,11 @@ public class RedisSubscriber implements MessageListener {
 		try {
 			String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
 			MessageDto messageDto = objectMapper.readValue(publishMessage, MessageDto.class);
+			
+			if(messageDto.getType().equals("enter") || messageDto.getType().equals("exit")) {
+				messageDto.setUserCount(stompChatService.getUserCountInRoom(messageDto.getRoomId()));
+			}
+			
 			messagingTemplate.convertAndSend("/sub/chat/room/" + messageDto.getRoomId(), messageDto);
 		}catch(Exception e) {
 			logger.error("ERROR : ", e);
