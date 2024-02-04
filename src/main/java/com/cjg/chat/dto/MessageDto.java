@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class MessageDto {
 	
+	private String messageId;
 	private String type;
 	private String roomId;
 	private String userId;
