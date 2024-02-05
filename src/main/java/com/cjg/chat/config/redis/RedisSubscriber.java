@@ -33,7 +33,8 @@ public class RedisSubscriber implements MessageListener {
 			
 			if(messageDto.getType().equals("enter") || messageDto.getType().equals("exit")) {
 				messageDto.setUserCount(stompChatService.getUserCountInRoom(messageDto.getRoomId()));
-			}
+				messageDto.setUserList(stompChatService.getUserListInRoom(messageDto.getRoomId()));
+			} 
 			
 			messagingTemplate.convertAndSend("/sub/chat/room/" + messageDto.getRoomId(), messageDto);
 		}catch(Exception e) {

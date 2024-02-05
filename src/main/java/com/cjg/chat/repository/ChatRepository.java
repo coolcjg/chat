@@ -1,5 +1,7 @@
 package com.cjg.chat.repository;
 
+import java.util.Set;
+
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Component;
@@ -44,6 +46,10 @@ public class ChatRepository {
 	
 	public Long getUserCountInRoom(String roomId) {
 		return setOps.size(ROOMID_USERID + roomId);
+	}
+	
+	public Set<String> getUserListInRoom(String roomId) {
+		return setOps.members(ROOMID_USERID + roomId);
 	}
 	
 }

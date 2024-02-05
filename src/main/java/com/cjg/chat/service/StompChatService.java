@@ -1,5 +1,7 @@
 package com.cjg.chat.service;
 
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -64,6 +66,10 @@ public class StompChatService {
 	
 	public Long getUserCountInRoom(String roomId) {
 		return chatRepository.getUserCountInRoom(roomId);
+	}
+	
+	public Set<String> getUserListInRoom(String roomId) {
+		return chatRepository.getUserListInRoom(roomId);
 	}
 	
 

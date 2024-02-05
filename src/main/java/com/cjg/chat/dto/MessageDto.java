@@ -1,5 +1,7 @@
 package com.cjg.chat.dto;
 
+import java.util.Set;
+
 import lombok.Data;
 
 @Data
@@ -12,5 +14,6 @@ public class MessageDto {
 	private String message;
 	private String time;
 	private Long userCount;
+	private Set<String> userList;
 
 }
