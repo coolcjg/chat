@@ -32,7 +32,6 @@ public class RedisSubscriber implements MessageListener {
 			MessageDto messageDto = objectMapper.readValue(publishMessage, MessageDto.class);
 			
 			if(messageDto.getType().equals("enter") || messageDto.getType().equals("exit")) {
-				messageDto.setUserCount(stompChatService.getUserCountInRoom(messageDto.getRoomId()));
 				messageDto.setUserList(stompChatService.getUserListInRoom(messageDto.getRoomId()));
 			} 
 			
