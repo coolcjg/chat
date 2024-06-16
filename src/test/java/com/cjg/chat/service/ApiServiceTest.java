@@ -46,7 +46,7 @@ public class ApiServiceTest {
     }
 
     @Test
-    @DisplayName("isMember")
+    @DisplayName("isMember_existUser")
     public void isMember_existUser(){
 
         Map<String, String> param = new HashMap();
@@ -66,7 +66,7 @@ public class ApiServiceTest {
     }
 
     @Test
-    @DisplayName("isMember")
+    @DisplayName("isMember_paramNull")
     public void isMember_paramNull(){
         Map<String, String> param = new HashMap();
         Map<String, Object> result = apiService.isMember(param);
