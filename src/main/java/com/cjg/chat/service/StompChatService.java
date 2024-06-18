@@ -49,6 +49,12 @@ public class StompChatService {
 	
 	public void sendExitMessage(Message<?> message) {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+
+		//채팅 나가기 버튼 눌렀을 때 중복 메시지 전달 방지
+		if(accessor.getFirstNativeHeader("receipt") != null){
+			return;
+		}
+
 		String sessionId = accessor.getSessionId();
 						
 		User user = chatRepository.getSessionId_User(sessionId);
