@@ -38,3 +38,11 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+jar {
+	enabled = false
+}
