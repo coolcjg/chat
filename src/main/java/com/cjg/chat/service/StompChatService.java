@@ -67,6 +67,7 @@ public class StompChatService {
 		
 		redisTemplate.convertAndSend(channelTopic.getTopic(), messageDto);
 		chatRepository.removeRoomId_UserId(user);
+		chatRepository.removeSessionId_User(sessionId, user);
 		
 	}
 	

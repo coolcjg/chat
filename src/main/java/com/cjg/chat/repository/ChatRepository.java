@@ -27,6 +27,10 @@ public class ChatRepository {
 	public void setSessionId_User(String sessionId, User user) {
 		hashOps.put(SESSIONID_USER, sessionId, user);
 	}
+
+	public void removeSessionId_User(String sessionId, User user){
+		hashOps.delete(SESSIONID_USER, sessionId, user);
+	}
 	
 	public User getSessionId_User(String sessionId) {
 		return (User)hashOps.get(SESSIONID_USER, sessionId);
