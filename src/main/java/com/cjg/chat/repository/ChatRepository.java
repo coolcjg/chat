@@ -1,6 +1,7 @@
 package com.cjg.chat.repository;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.SetOperations;
@@ -26,6 +27,9 @@ public class ChatRepository {
 
 	public void setSessionId_User(String sessionId, User user) {
 		hashOps.put(SESSIONID_USER, sessionId, user);
+
+		//만료기간 설정
+		hashOps.getOperations().expire(SESSIONID_USER, 7, TimeUnit.DAYS);
 	}
 
 	public void removeSessionId_User(String sessionId, User user){
@@ -38,6 +42,9 @@ public class ChatRepository {
 	
 	public void setRoomId_UserId(User user) {
 		setOps.add(ROOMID_USERID + user.getRoomId(), user.getUserId());
+
+		//만료기간 설정
+		setOps.getOperations().expire(ROOMID_USERID + user.getRoomId(), 7, TimeUnit.DAYS);
 	}
 	
 	public boolean isMember(User user) {
